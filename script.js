@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const response = await fetch(
-        'dishventory-ai-backend-production.up.railway.app',
+        'https://dishventory-ai-backend-production.up.railway.app/predict',
         {
           method: 'POST',
           body: formData,

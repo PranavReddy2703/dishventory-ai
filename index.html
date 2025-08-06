@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Web Page</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <h1>Pizza Sales Forecast Dashboard</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+      <label for="data-file">Upload sales data (CSV):</label>
+      <input
+        type="file"
+        id="data-file"
+        name="data-file"
+        accept=".xlsx"
+      /><br /><br />
+      <button type="submit">Upload and Predict</button>
+    </form>
+    <div id="result-section">
+      <div>
+        <h2>Forecast Results</h2>
+        <div id="forecast-results">
+          <!-- Forecast results will be displayed here -->
+        </div>
+      </div>
+      <div>
+        <h2>Raw Materils Suggested</h2>
+        <div id="raw-materials-suggested">
+          <!-- Raw materials suggestions will be displayed here -->
+      </div>
+    </div>
+  </body>
+</html>

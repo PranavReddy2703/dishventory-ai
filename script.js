@@ -22,10 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       // Replace this URL with your actual backend API endpoint
-      const response = await fetch('http://127.0.0.1:5000/predict', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch(
+        'dishventory-ai-backend-production.up.railway.app',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.statusText}`);

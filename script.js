@@ -1,18 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('Script loaded!'); // for debugging
+
   const form = document.getElementById('upload-form');
   const forecastResultsDiv = document.getElementById('forecast-results');
   const rawMaterialsDiv = document.getElementById('raw-materials-suggested');
 
   form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // 🔴 This prevents the form from submitting normally
 
-    forecastResultsDiv.textContent = 'Loading forecast...';
+    forecastResultsDiv.innerHTML = '<p>Loading forecast...</p>';
     rawMaterialsDiv.textContent = 'Loading raw materials...';
 
     const fileInput = document.getElementById('data-file');
     if (fileInput.files.length === 0) {
       alert('Please select a file to upload.');
-      forecastResultsDiv.textContent = '';
+      forecastResultsDiv.innerHTML = '';
       rawMaterialsDiv.textContent = '';
       return;
     }
@@ -21,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('data-file', fileInput.files[0]);
 
     try {
-      // Replace this URL with your actual backend API endpoint
       const response = await fetch(
         'dishventory-ai-backend-production.up.railway.app',
         {
@@ -30,25 +31,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       );
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.statusText}`);
+      const result = await response.json();
+      forecastResultsDiv.innerHTML = '';
+
+      if ('predicted_sales' in result) {
+        forecastResultsDiv.textContent = `PEPPERONI M: ${result.predicted_sales} units`;
       }
 
-      const result = await response.json();
+      if (result.graph_base64) {
+        const img = document.createElement('img');
+        img.src = `data:image/png;base64,${result.graph_base64}`;
+        forecastResultsDiv.appendChild(img);
+      }
 
-      // Assuming your backend returns something like:
-      // { forecast: "...", raw_materials: "..." }
-      // Adjust these keys according to your API response
-
-      forecastResultsDiv.textContent =
-        result.forecast || 'No forecast data received.';
-      rawMaterialsDiv.textContent =
-        result.raw_materials || 'No raw materials data received.';
+      if (result.ingredients_needed) {
+        let output = '';
+        for (const [key, value] of Object.entries(result.ingredients_needed)) {
+          output += `${key}: ${value}\n`;
+        }
+        rawMaterialsDiv.textContent = output;
+      }
     } catch (error) {
-      forecastResultsDiv.textContent = 'Error loading forecast.';
-      rawMaterialsDiv.textContent = 'Error loading raw materials.';
-      console.error('Error:', error);
-      alert('An error occurred while fetching the forecast. Please try again.');
+      forecastResultsDiv.textContent = `Error: ${error.message}`;
+      rawMaterialsDiv.textContent = 'Failed to load raw materials.';
     }
   });
 });

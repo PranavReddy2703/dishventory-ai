@@ -8,7 +8,6 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #f5f5f5;
     color: #333;
-    
 }
 
 h1{
@@ -62,7 +61,7 @@ button[type="submit"]:hover {
 }
 
 #result-section{
-    max-width: 800px;
+    max-width: 1000px; /* increased from 800px */
     margin: 30px auto;
     padding: 20px;
     background-color: #fff;
@@ -75,8 +74,13 @@ button[type="submit"]:hover {
     justify-content: space-between;
 }
 
-#result-section > div {
-    flex: 1;
+/* UPDATED: give individual flex ratios */
+#forecast-section {
+    flex: 7;
+}
+
+#raw-materials-section {
+    flex: 3;
 }
 
 #result-section h2 {
@@ -87,7 +91,7 @@ button[type="submit"]:hover {
     font-size: 1.4rem;
 }
 
-#forecast-results,#raw-materials-suggested {
+#forecast-results, #raw-materials-suggested {
     background: #f7fafd;
     border-radius: 6px;
     padding: 15px;
@@ -97,4 +101,24 @@ button[type="submit"]:hover {
     overflow-y: auto;
     border: 1px solid #ddd;
     color: #222;
+}
+
+#forecast-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#forecast-results img {
+    max-width: 100%;
+    height: auto;
+    width: 100%; /* ensures it fills the parent container */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+#forecast-results .text-content {
+    width: 100%;
+    white-space: pre-wrap;
 }
